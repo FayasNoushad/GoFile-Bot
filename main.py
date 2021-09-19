@@ -38,7 +38,7 @@ async def media_filter(bot, update):
             quote=True,
             disable_web_page_preview=True
         )
-        await update.download()
+        await update.download(file_name=medianame)
         response = uploadFile(medianame)
         try:
             os.remove(medianame)
