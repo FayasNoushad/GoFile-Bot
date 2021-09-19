@@ -40,7 +40,7 @@ async def media_filter(bot, update):
             text="`Downloading...`",
             disable_web_page_preview=True
         )
-        response = uploadFile(medianame)
+        response = uploadFile(media)
         await message.edit_text(
             text="`Uploading...`",
             disable_web_page_preview=True
