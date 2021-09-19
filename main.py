@@ -33,7 +33,7 @@ async def start(bot, update):
 async def media_filter(bot, update):
     medianame = DOWNLOAD_LOCATION + str(update.from_user.id)
     try:
-        message = await update.reply_message(
+        message = await update.reply_text(
             text="`Processing...`",
             quote=True,
             disable_web_page_preview=True
