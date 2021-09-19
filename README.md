@@ -1,6 +1,6 @@
 # GoFile-Bot
 
-A telegram media to gofile bot
+A telegram media to [gofile](https://gofile.io) bot
 
 ---
 
