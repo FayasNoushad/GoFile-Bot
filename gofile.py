@@ -2,7 +2,7 @@ import requests
 
 def uploadFile(file: str):
     server = requests.get("https://api.gofile.io/getServer").json()["data"]["server"]
-    uploadFile_response = requests.post(
+    response = requests.post(
         url=f"https://{server}.gofile.io/uploadFile",
         data={
             "token": None,
@@ -14,4 +14,8 @@ def uploadFile(file: str):
         },
         files={"upload_file": open(file, "rb")}
     ).json()
-    return response_handler(uploadFile_response)
+    if response["status"] == "ok":
+        return response["data"]
+    elif "error-" in response["status"]:
+        error = response["status"].split("-")[1]
+        raise Exception(error)
