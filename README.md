@@ -4,6 +4,15 @@ A telegram media to gofile bot
 
 ---
 
+```
+Made with Python3
+(C) @FayasNoushad
+Copyright permission under MIT License
+License -> https://github.com/FayasNoushad/GoFile-Bot/blob/main/LICENSE
+```
+
+---
+
 ## Variables
 
 - `API_HASH` Your API Hash from my.telegram.org
