@@ -20,6 +20,15 @@ Bot = Client(
 )
 
 
+@Bot.on_message(filters.private & filters.command("start"))
+async def start(bot, update):
+    await update.reply_text(
+        text=f"Hello {update.from_user.mention}, Please send a media for gofile.io stream link.\n\nMade by @FayasNoushad",
+        disable_web_page_preview=True,
+        quote=True
+    )
+
+
 @Bot.on_message(filters.private & filters.media)
 async def media_filter(bot, update):
     medianame = DOWNLOAD_LOCATION + str(update.from_user.id)
