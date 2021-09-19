@@ -10,8 +10,6 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from gofile import uploadFile
 
 
-DOWNLOAD_LOCATION = os.environ.get("DOWNLOAD_LOCATION", "./DOWNLOADS/")
-
 Bot = Client(
     "GoFile-Bot",
     bot_token = os.environ["BOT_TOKEN"],
@@ -31,17 +29,24 @@ async def start(bot, update):
 
 @Bot.on_message(filters.private & filters.media)
 async def media_filter(bot, update):
-    medianame = DOWNLOAD_LOCATION + str(update.from_user.id)
     try:
         message = await update.reply_text(
             text="`Processing...`",
             quote=True,
             disable_web_page_preview=True
         )
-        await update.download(file_name=medianame)
+        media = await update.download()
+        await message.edit_text(
+            text="`Downloading...`",
+            disable_web_page_preview=True
+        )
         response = uploadFile(medianame)
+        await message.edit_text(
+            text="`Uploading...`",
+            disable_web_page_preview=True
+        )
         try:
-            os.remove(medianame)
+            os.remove(media)
         except:
             pass
     except Exception as error:
