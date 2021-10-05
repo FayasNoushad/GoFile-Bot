@@ -21,7 +21,9 @@ Bot = Client(
 @Bot.on_message(filters.private & filters.command("start"))
 async def start(bot, update):
     await update.reply_text(
-        text=f"Hello {update.from_user.mention}, Please send a media for gofile.io stream link.\n\nMade by @FayasNoushad",
+        text=f"Hey {update.from_user.mention},              I  am Fastest Media Uploader to Web GoFile.io .
+
+Send me a Media to get started ! .\n\nMade by @Tellybots_4u",
         disable_web_page_preview=True,
         quote=True
     )
@@ -31,18 +33,18 @@ async def start(bot, update):
 async def media_filter(bot, update):
     try:
         message = await update.reply_text(
-            text="`Processing...`",
+            text="Processing...",
             quote=True,
             disable_web_page_preview=True
         )
         media = await update.download()
         await message.edit_text(
-            text="`Downloading...`",
+            text="Downloading...",
             disable_web_page_preview=True
         )
         response = uploadFile(media)
         await message.edit_text(
-            text="`Uploading...`",
+            text="Uploading...",
             disable_web_page_preview=True
         )
         try:
@@ -56,10 +58,10 @@ async def media_filter(bot, update):
             disable_web_page_preview=True
         )
         return
-    text = f"**File Name:** `{response['fileName']}`" + "\n"
-    text += f"**Download Page:** `{response['downloadPage']}`" + "\n"
-    text += f"**Direct Download Link:** `{response['directLink']}`" + "\n"
-    text += f"**Info:** `{response['info']}`"
+    text = f"**File Name:** {response['fileName']}" + "\n"
+    text += f"**Download Page:** {response['downloadPage']}" + "\n"
+    text += f"**Direct Download Link:** {response['directLink']}" + "\n"
+    text += f"**Info:** {response['info']}"
     reply_markup = InlineKeyboardMarkup(
         [
             [
