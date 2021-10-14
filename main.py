@@ -1,5 +1,5 @@
 # Made with python3
-# (C) @FayasNoushad
+# (C) @FayasNoushad on behalf of Kite Tv Networks Private Limited
 # Copyright permission under MIT License
 # All rights reserved by FayasNoushad
 # License -> https://github.com/FayasNoushad/GoFile-Bot/blob/main/LICENSE
@@ -21,7 +21,7 @@ Bot = Client(
 @Bot.on_message(filters.private & filters.command("start"))
 async def start(bot, update):
     await update.reply_text(
-        text=f"Hello {update.from_user.mention}, Please send a media for gofile.io stream link.\n\nMade by @FayasNoushad",
+        text=f"Hello {update.from_user.mention}, send a media for gofile.io stream link.\n\nMade by @kitetvindia",
         disable_web_page_preview=True,
         quote=True
     )
@@ -31,18 +31,18 @@ async def start(bot, update):
 async def media_filter(bot, update):
     try:
         message = await update.reply_text(
-            text="`Processing...`",
+            text="`**checking**`",
             quote=True,
             disable_web_page_preview=True
         )
         media = await update.download()
         await message.edit_text(
-            text="`Downloading...`",
+            text="`**Downloading from given link**`",
             disable_web_page_preview=True
         )
         response = uploadFile(media)
         await message.edit_text(
-            text="`Uploading...`",
+            text="`**Uploading to Telegram**`",
             disable_web_page_preview=True
         )
         try:
@@ -67,7 +67,7 @@ async def media_filter(bot, update):
                 InlineKeyboardButton(text="Share Link", url=f"https://telegram.me/share/url?url={response['directLink']}")
             ],
             [
-                InlineKeyboardButton(text="Join Updates Channel", url="https://telegram.me/FayasNoushad")
+                InlineKeyboardButton(text="Join Updates Channel", url="t.me/kitetvindia")
             ]
         ]
     )
