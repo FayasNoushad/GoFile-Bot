@@ -35,16 +35,16 @@ async def media_filter(bot, update):
             quote=True,
             disable_web_page_preview=True
         )
-        media = await update.download()
         await message.edit_text(
             text="`Downloading...`",
             disable_web_page_preview=True
         )
-        response = uploadFile(media)
+        media = await update.download()
         await message.edit_text(
             text="`Uploading...`",
             disable_web_page_preview=True
         )
+        response = uploadFile(media)
         try:
             os.remove(media)
         except:
