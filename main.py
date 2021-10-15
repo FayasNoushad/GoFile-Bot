@@ -29,12 +29,12 @@ async def start(bot, update):
 
 @Bot.on_message(filters.private & filters.media)
 async def media_filter(bot, update):
+    message = await update.reply_text(
+        text="`Processing...`",
+        quote=True,
+        disable_web_page_preview=True
+    )
     try:
-        message = await update.reply_text(
-            text="`Processing...`",
-            quote=True,
-            disable_web_page_preview=True
-        )
         await message.edit_text(
             text="`Downloading...`",
             disable_web_page_preview=True
@@ -50,7 +50,7 @@ async def media_filter(bot, update):
         except:
             pass
     except Exception as error:
-        await update.reply_text(
+        await message.edit_text(
             text=f"Error :- <code>{error}</code>",
             quote=True,
             disable_web_page_preview=True
