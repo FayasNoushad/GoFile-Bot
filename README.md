@@ -1,9 +1,3 @@
-# GoFile-Bot
-
-A telegram media to [gofile](https://gofile.io) bot
-
----
-
 ```
 Made with Python3
 (C) @FayasNoushad
@@ -16,7 +10,7 @@ License -> https://github.com/FayasNoushad/GoFile-Bot/blob/main/LICENSE
 ## Deploy
 
 ```sh
-git clone https://github.com/FayasNoushad/GoFile-Bot/tree/main
+git clone https://github.com/FayasNoushad/GoFile-Bot.git
 cd GoFile-Bot
 pip3 install -r requirements.txt
 # <Create Variables appropriately>
@@ -37,3 +31,5 @@ python3 main.py
 
 - [Fayas Noushad](https://github.com/FayasNoushad)
 - [Pyrogram](https://github.com/pyrogram/pyrogram)
+
+---
