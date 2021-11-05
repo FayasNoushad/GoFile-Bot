@@ -5,6 +5,7 @@
 # License -> https://github.com/FayasNoushad/GoFile-Bot/blob/main/LICENSE
 
 import os
+import urldl
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton 
 from gofile import uploadFile
@@ -27,8 +28,10 @@ async def start(bot, update):
     )
 
 
-@Bot.on_message(filters.private & filters.media)
-async def media_filter(bot, update):
+@Bot.on_message(filters.private & (filters.media | filters.text))
+async def filter(bot, update):
+    if not update.text.startswith("http://") or not update.text.startswith("https://"):
+        return
     message = await update.reply_text(
         text="`Processing...`",
         quote=True,
@@ -39,7 +42,10 @@ async def media_filter(bot, update):
             text="`Downloading...`",
             disable_web_page_preview=True
         )
-        media = await update.download()
+        if update.text:
+            media = urldl.download(url)
+        else:
+            media = await update.download()
         await message.edit_text(
             text="`Uploading...`",
             disable_web_page_preview=True
