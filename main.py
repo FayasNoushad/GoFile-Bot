@@ -30,7 +30,7 @@ async def start(bot, update):
 
 @Bot.on_message(filters.private & (filters.media | filters.text))
 async def filter(bot, update):
-    if not update.text.startswith("http://") or not update.text.startswith("https://"):
+    if update.text and not update.text.startswith("http://") or not update.text.startswith("https://"):
         return
     message = await update.reply_text(
         text="`Processing...`",
