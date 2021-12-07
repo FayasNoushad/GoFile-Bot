@@ -1,9 +1,3 @@
-# Made with python3
-# (C) @FayasNoushad
-# Copyright permission under MIT License
-# All rights reserved by FayasNoushad
-# License -> https://github.com/FayasNoushad/GoFile-Bot/blob/main/LICENSE
-
 import os
 import urldl
 from pyrogram import Client, filters
@@ -30,8 +24,9 @@ async def start(bot, update):
 
 @Bot.on_message(filters.private & (filters.media | filters.text))
 async def filter(bot, update):
-    if update.text and not update.text.startswith("http://") or not update.text.startswith("https://"):
-        return
+    if update.text:
+        if not update.text.startswith("http://") or not update.text.startswith("https://"):
+            return
     message = await update.reply_text(
         text="`Processing...`",
         quote=True,
@@ -57,7 +52,7 @@ async def filter(bot, update):
             pass
     except Exception as error:
         await message.edit_text(
-            text=f"Error :- <code>{error}</code>",
+            text=f"Error :- `{error}`",
             quote=True,
             disable_web_page_preview=True
         )
