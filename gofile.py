@@ -11,7 +11,9 @@ def uploadFile(file: str):
         files={"upload_file": open(file, "rb")}
     ).json()
     if response["status"] == "ok":
-        return response["data"]
+        data = response["data"]
+        data["directLink"] = f"https://{server}.gofile.io/download/{data['fileId']}"
+        return data
     elif "error-" in response["status"]:
         error = response["status"].split("-")[1]
         raise Exception(error)
