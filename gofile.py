@@ -15,7 +15,7 @@ def uploadFile(file: str):
     
     if response["status"] == "ok":
         data = response["data"]
-        data["directLink"] = f"https://{server}.gofile.io/download/{data['fileId']}"
+        data["directLink"] = f"https://{server}.gofile.io/download/{data['fileId']}/{data['fileName']"
         return data
     elif "error-" in response["status"]:
         error = response["status"].split("-")[1]
