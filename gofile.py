@@ -1,7 +1,9 @@
 import requests
 
 def uploadFile(file: str):
+    
     server = requests.get("https://api.gofile.io/getServer").json()["data"]["server"]
+    
     response = requests.post(
         url=f"https://{server}.gofile.io/uploadFile",
         data={
@@ -10,6 +12,7 @@ def uploadFile(file: str):
         },
         files={"upload_file": open(file, "rb")}
     ).json()
+    
     if response["status"] == "ok":
         data = response["data"]
         data["directLink"] = f"https://{server}.gofile.io/download/{data['fileId']}"
