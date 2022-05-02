@@ -16,7 +16,9 @@ Bot = Client(
 @Bot.on_message(filters.private & filters.command("start"))
 async def start(bot, update):
     await update.reply_text(
-        text=f"Hello {update.from_user.mention}, Please send a media for gofile.io stream link.\n\nMade by @FayasNoushad",
+        text=f"""Hello {update.from_user.mention},
+        Please send a media for gofile.io stream link.\n
+        Made by @FayasNoushad""",
         disable_web_page_preview=True,
         quote=True
     )
@@ -60,7 +62,6 @@ async def filter(bot, update):
     text = f"**File Name:** `{response['fileName']}`" + "\n"
     text += f"**Download Page:** `{response['downloadPage']}`" + "\n"
     text += f"**Direct Download Link:** `{response['directLink']}`" + "\n"
-    text += f"**Info:** `{response['info']}`"
     reply_markup = InlineKeyboardMarkup(
         [
             [
