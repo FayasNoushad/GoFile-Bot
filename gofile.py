@@ -6,11 +6,7 @@ def uploadFile(file: str):
         url=f"https://{server}.gofile.io/uploadFile",
         data={
             "token": None,
-            "folderId": None,
-            "description": None,
-            "password": None,
-            "tags": None,
-            "expire": None
+            "folderId": None
         },
         files={"upload_file": open(file, "rb")}
     ).json()
