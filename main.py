@@ -18,19 +18,29 @@ async def start(bot, update):
     
     await update.reply_text(
         text=f"""Hello {update.from_user.mention},
-        Please send a media for gofile.io stream link.\n
+        Please send a media for gofile.io stream url.\n
         Made by @FayasNoushad""",
         disable_web_page_preview=True,
         quote=True
     )
 
 
-@Bot.on_message(filters.private & (filters.media | filters.text))
+@Bot.on_message(filters.private & filters.command("upload"))
 async def filter(bot, update):
     
-    if update.text:
-        if not update.text.startswith("http://") or not update.text.startswith("https://"):
-            return
+    url, token, folderId = None
+
+    if len(update.text.split()) > 1:
+        text = update.text.replace("\n", " ").split(" ", 1)[1]
+        if not update.reply_to_message.media:
+            if text.startswith("http://") or text.startswith("https://"):
+                if " " in text:
+                    if len(text.split()) > 2:
+                        url, token, folderId = text.split(" ", 2)
+                    else:
+                        url, token = text.split()
+                else:
+                    url = text
     
     message = await update.reply_text(
         text="`Processing...`",
@@ -44,16 +54,16 @@ async def filter(bot, update):
             await message.edit_text("`Downloading...`")
         except:
             pass
-        if update.text:
+        if url:
             media = urldl.download(url)
         else:
-            media = await update.download()
+            media = await update.reply_to_message.download()
         
         try:
             await message.edit_text("`Uploading...`")
         except:
             pass
-        response = uploadFile(media)
+        response = uploadFile(file=media, token=token, folderId=folderId)
         
         try:
             os.remove(media)

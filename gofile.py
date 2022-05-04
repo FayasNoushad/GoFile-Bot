@@ -1,14 +1,14 @@
 import requests
 
-def uploadFile(file: str):
+def uploadFile(file, token=None, folderId=None):
     
     server = requests.get("https://api.gofile.io/getServer").json()["data"]["server"]
     
     response = requests.post(
         url=f"https://{server}.gofile.io/uploadFile",
         data={
-            "token": None,
-            "folderId": None
+            "token": token,
+            "folderId": folderId
         },
         files={"upload_file": open(file, "rb")}
     ).json()
