@@ -40,19 +40,19 @@ async def filter(bot, update):
     
     try:
         
-        await message.edit_text(
-            text="`Downloading...`",
-            disable_web_page_preview=True
-        )
+        try:
+            await message.edit_text("`Downloading...`")
+        except:
+            pass
         if update.text:
             media = urldl.download(url)
         else:
             media = await update.download()
         
-        await message.edit_text(
-            text="`Uploading...`",
-            disable_web_page_preview=True
-        )
+        try:
+            await message.edit_text("`Uploading...`")
+        except:
+            pass
         response = uploadFile(media)
         
         try:
@@ -61,7 +61,6 @@ async def filter(bot, update):
             pass
     
     except Exception as error:
-        
         await message.edit_text(
             text=f"Error :- `{error}`",
             quote=True,
