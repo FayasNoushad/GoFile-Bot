@@ -43,7 +43,9 @@ async def start(bot, update):
 @Bot.on_message(filters.private & filters.command("upload"))
 async def filter(bot, update):
     
-    url, token, folderId = None
+    url = None
+    token = None
+    folderId = None
 
     if len(update.text.split()) > 1:
         text = update.text.replace("\n", " ").split(" ", 1)[1]
