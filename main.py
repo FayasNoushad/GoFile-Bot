@@ -18,7 +18,22 @@ async def start(bot, update):
     
     await update.reply_text(
         text=f"""Hello {update.from_user.mention},
-        Please send a media for gofile.io stream url.\n
+        Please send a media and reply /upload for gofile.io stream url.
+        You can also send with token and folder id\n
+        Normal:-
+          `/upload`
+        With token:-
+          `/upload token`
+        With folder id:-
+          `/upload token folderid`
+        \n
+        You can also send as media download url with token and folder id\n
+        Normal:-
+          `/upload url`
+        With token:-
+          `/upload url token`
+        With folder id:-
+          `/upload url token folderid`\n
         Made by @FayasNoushad""",
         disable_web_page_preview=True,
         quote=True
