@@ -48,7 +48,7 @@ async def filter(bot, update):
     token = None
     folderId = None
     
-    if len(text.split()) > 1:
+    if " " in text:
         text = text.split(" ", 1)[1]
         if not update.reply_to_message.media:
             if text.startswith("http://") or text.startswith("https://"):
@@ -59,6 +59,8 @@ async def filter(bot, update):
                         url, token = text.split()
                 else:
                     url = text
+    elif not update.reply_to_message:
+        return
     
     message = await update.reply_text(
         text="`Processing...`",
