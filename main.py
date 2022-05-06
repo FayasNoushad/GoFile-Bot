@@ -18,7 +18,7 @@ async def start(bot, update):
     
     await update.reply_text(
         text=f"""Hello {update.from_user.mention},
-        Please send a media and reply /upload for gofile.io stream url.
+        Please send a media and reply `/upload` for gofile.io stream url.
         You can also send with token and folder id\n
         Normal:-
           `/upload`
@@ -43,12 +43,13 @@ async def start(bot, update):
 @Bot.on_message(filters.private & filters.command("upload"))
 async def filter(bot, update):
     
+    text = update.text.replace("\n", " ")
     url = None
     token = None
     folderId = None
-
-    if len(update.text.split()) > 1:
-        text = update.text.replace("\n", " ").split(" ", 1)[1]
+    
+    if len(text.split()) > 1:
+        text = text.split(" ", 1)[1]
         if not update.reply_to_message.media:
             if text.startswith("http://") or text.startswith("https://"):
                 if " " in text:
