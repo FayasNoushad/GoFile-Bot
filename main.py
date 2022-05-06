@@ -70,20 +70,16 @@ async def filter(bot, update):
     
     try:
         
-        try:
-            await message.edit_text("`Downloading...`")
-        except:
-            pass
+        await message.edit_text("`Downloading...`")
         if url:
             media = urldl.download(url)
         else:
             media = await update.reply_to_message.download()
+        await message.edit_text("`Downloaded Successfully`")
         
-        try:
-            await message.edit_text("`Uploading...`")
-        except:
-            pass
+        await message.edit_text("`Uploading...`")
         response = uploadFile(file=media, token=token, folderId=folderId)
+        await message.edit_text("`Uploading Successfully`")
         
         try:
             os.remove(media)
@@ -91,11 +87,7 @@ async def filter(bot, update):
             pass
     
     except Exception as error:
-        await message.edit_text(
-            text=f"Error :- `{error}`",
-            quote=True,
-            disable_web_page_preview=True
-        )
+        await message.edit_text(f"Error :- `{error}`")
         return
     
     text = f"**File Name:** `{response['fileName']}`" + "\n"
