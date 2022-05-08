@@ -3,7 +3,7 @@ import urldl
 from dotenv import load_dotenv
 from gofile import uploadFile
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton 
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 load_dotenv()
@@ -15,29 +15,31 @@ Bot = Client(
     api_hash=os.environ.get("API_HASH")
 )
 
+INSTRUCTIONS = """I am a gofile uploader telegram bot. You can upload files to gofile.io with command.
+
+With media:
+    Normal:
+        `/upload`
+    With token:
+        `/upload token`
+    With folder id:
+        `/upload token folderid`
+
+Using Link:
+    Normal:
+        `/upload url`
+    With token:
+        `/upload url token`
+    With folder id:
+        `/upload url token folderid`
+
+Made by @FayasNoushad"""
+
 
 @Bot.on_message(filters.private & filters.command("start"))
 async def start(bot, update):
-    
     await update.reply_text(
-        text=f"""Hello {update.from_user.mention},
-        Please send a media and reply `/upload` for gofile.io stream url.
-        You can also send with token and folder id\n
-        Normal:-
-          `/upload`
-        With token:-
-          `/upload token`
-        With folder id:-
-          `/upload token folderid`
-        \n
-        You can also send as media download url with token and folder id\n
-        Normal:-
-          `/upload url`
-        With token:-
-          `/upload url token`
-        With folder id:-
-          `/upload url token folderid`\n
-        Made by @FayasNoushad""",
+        text=f"Hello {update.from_user.mention}," + INSTRUCTIONS,
         disable_web_page_preview=True,
         quote=True
     )
@@ -45,12 +47,12 @@ async def start(bot, update):
 
 @Bot.on_message(filters.private & filters.command("upload"))
 async def filter(bot, update):
-    
+
     text = update.text.replace("\n", " ")
     url = None
     token = None
     folderId = None
-    
+
     if " " in text:
         text = text.split(" ", 1)[1]
         if not update.reply_to_message.media:
@@ -64,46 +66,49 @@ async def filter(bot, update):
                     url = text
     elif not update.reply_to_message:
         return
-    
+
     message = await update.reply_text(
         text="`Processing...`",
         quote=True,
         disable_web_page_preview=True
     )
-    
+
     try:
-        
+
         await message.edit_text("`Downloading...`")
         if url:
             media = urldl.download(url)
         else:
             media = await update.reply_to_message.download()
         await message.edit_text("`Downloaded Successfully`")
-        
+
         await message.edit_text("`Uploading...`")
         response = uploadFile(file=media, token=token, folderId=folderId)
         await message.edit_text("`Uploading Successfully`")
-        
+
         try:
             os.remove(media)
         except Exception as error:
             print(error)
-    
+
     except Exception as error:
         await message.edit_text(f"Error :- `{error}`")
         return
-    
+
     text = f"**File Name:** `{response['fileName']}`" + "\n"
     text += f"**Download Page:** `{response['downloadPage']}`" + "\n"
     text += f"**Direct Download Link:** `{response['directLink']}`" + "\n"
     reply_markup = InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton(text="Open Link", url=response['directLink']),
-                InlineKeyboardButton(text="Share Link", url=f"https://telegram.me/share/url?url={response['directLink']}")
+                InlineKeyboardButton(
+                    text="Open Link", url=response['directLink']),
+                InlineKeyboardButton(
+                    text="Share Link", url=f"https://telegram.me/share/url?url={response['directLink']}")
             ],
             [
-                InlineKeyboardButton(text="Join Updates Channel", url="https://telegram.me/FayasNoushad")
+                InlineKeyboardButton(
+                    text="Join Updates Channel", url="https://telegram.me/FayasNoushad")
             ]
         ]
     )
