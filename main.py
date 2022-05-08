@@ -1,9 +1,12 @@
 import os
 import urldl
+from dotenv import load_dotenv
 from gofile import uploadFile
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton 
 
+
+load_dotenv()
 
 Bot = Client(
     "GoFile-Bot",
@@ -83,8 +86,8 @@ async def filter(bot, update):
         
         try:
             os.remove(media)
-        except:
-            pass
+        except Exception as error:
+            print(error)
     
     except Exception as error:
         await message.edit_text(f"Error :- `{error}`")
