@@ -20,6 +20,7 @@ def uploadFile(file, token=None, folderId=None):
     except subprocess.CalledProcessError as e:
         raise Exception(e)
     out = out.decode("UTF-8").strip()
+    print(out)
     if out:
         try:
             response = json.loads(out)
