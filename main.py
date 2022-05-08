@@ -15,7 +15,8 @@ Bot = Client(
     api_hash=os.environ.get("API_HASH")
 )
 
-INSTRUCTIONS = """I am a gofile uploader telegram bot. You can upload files to gofile.io with command.
+INSTRUCTIONS = """I am a gofile uploader telegram bot. \
+You can upload files to gofile.io with command.
 
 With media:
     Normal:
