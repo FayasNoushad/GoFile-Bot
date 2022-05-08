@@ -8,12 +8,15 @@ def uploadFile(file, token=None, folderId=None):
     
     server = requests.get("https://api.gofile.io/getServer").json()["data"]["server"]
 
+    cmd = 'curl '
+    cmd += f'-F file=@{file} '
+    if token:
+        cmd += f'-F token={token} '
+    if folderId:
+        cmd += f'-F folderId={folderId} '
+    cmd += f'https://{server}.gofile.io/uploadFile'
     upload_cmd = shlex.split(
-        'curl '
-        f'-F file=@{file} '
-        f'-F token={token} '
-        f'-F folderId={folderId} '
-        f'https://{server}.gofile.io/uploadFile'
+        cmd
     )
     try:
         out = subprocess.check_output(upload_cmd, stderr=subprocess.STDOUT)
