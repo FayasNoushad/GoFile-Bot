@@ -2,3 +2,5 @@
 *.session
 *.pyc
 *.env
+**/venv
+**/downloads
