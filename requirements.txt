@@ -2,3 +2,5 @@ pyrogram
 tgcrypto
 requests
 urldl
+check-url
+python-dotenv

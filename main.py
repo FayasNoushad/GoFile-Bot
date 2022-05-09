@@ -1,5 +1,6 @@
 import os
 import urldl
+import check_url
 from dotenv import load_dotenv
 from gofile import uploadFile
 from pyrogram import Client, filters
@@ -49,30 +50,33 @@ async def start(bot, update):
 @Bot.on_message(filters.private & filters.command("upload"))
 async def filter(bot, update):
 
-    text = update.text.replace("\n", " ")
-    url = None
-    token = None
-    folderId = None
-
-    if " " in text:
-        text = text.split(" ", 1)[1]
-        if not update.reply_to_message.media:
-            if text.startswith("http://") or text.startswith("https://"):
-                if " " in text:
-                    if len(text.split()) > 2:
-                        url, token, folderId = text.split(" ", 2)
-                    else:
-                        url, token = text.split()
-                else:
-                    url = text
-    elif not update.reply_to_message:
-        return
-
     message = await update.reply_text(
         text="`Processing...`",
         quote=True,
         disable_web_page_preview=True
     )
+
+    text = update.text.replace("\n", " ")
+    url = None
+    token = None
+    folderId = None
+
+    if " " in text and not update.reply_to_message:
+        text = text.split(" ", 1)[1]
+        if " " in text:
+            if len(text.split()) > 2:
+                url, token, folderId = text.split(" ", 2)
+            else:
+                url, token = text.split()
+        else:
+            url = text
+        if not check_url.check(url):
+            await message.edit_text("Error :- `url is wrong`")
+            return
+    
+    if not update.reply_to_message:
+        await message.edit_text("Error :- `downloadable media or url not found`")
+        return
 
     try:
 

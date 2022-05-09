@@ -15,9 +15,7 @@ def uploadFile(file, token=None, folderId=None):
     if folderId:
         cmd += f'-F folderId={folderId} '
     cmd += f'https://{server}.gofile.io/uploadFile'
-    upload_cmd = shlex.split(
-        cmd
-    )
+    upload_cmd = shlex.split(cmd)
     try:
         out = subprocess.check_output(upload_cmd, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as e:
