@@ -61,20 +61,25 @@ async def filter(bot, update):
     token = None
     folderId = None
 
-    if " " in text and not update.reply_to_message:
+    if " " in text:
         text = text.split(" ", 1)[1]
-        if " " in text:
-            if len(text.split()) > 2:
-                url, token, folderId = text.split(" ", 2)
+        if update.reply_to_message:
+            if " " in text:
+                token, folderId = text.split(" ", 1)
             else:
-                url, token = text.split()
+                token = text
         else:
-            url = text
-        if not check_url.check(url):
-            await message.edit_text("Error :- `url is wrong`")
-            return
-    
-    if not update.reply_to_message:
+            if " " in text:
+                if len(text.split()) > 2:
+                    url, token, folderId = text.split(" ", 2)
+                else:
+                    url, token = text.split()
+            else:
+                url = text
+            if not check_url.check(url):
+                await message.edit_text("Error :- `url is wrong`")
+                return
+    elif not update.reply_to_message:
         await message.edit_text("Error :- `downloadable media or url not found`")
         return
 
