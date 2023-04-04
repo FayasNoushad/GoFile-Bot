@@ -16,7 +16,8 @@ Bot = Client(
     api_hash=os.environ.get("API_HASH")
 )
 
-INSTRUCTIONS = """I am a gofile uploader telegram bot. \
+INSTRUCTIONS = """
+I am a gofile uploader telegram bot. \
 You can upload files to gofile.io with command.
 
 With media:
@@ -34,8 +35,7 @@ Using Link:
         `/upload url token`
     With folder id:
         `/upload url token folderid`
-
-Made by @FayasNoushad"""
+"""
 
 
 @Bot.on_message(filters.private & filters.command("start"))
@@ -118,7 +118,7 @@ async def filter(bot, update):
             ],
             [
                 InlineKeyboardButton(
-                    text="Join Updates Channel", url="https://telegram.me/FayasNoushad")
+                    text="Feedback", url="https://telegram.me/FayasNoushad")
             ]
         ]
     )
