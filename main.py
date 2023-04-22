@@ -1,6 +1,4 @@
 import os
-import urldl
-import check_url
 from dotenv import load_dotenv
 from gofile import uploadFile
 from pyrogram import Client, filters
@@ -76,7 +74,7 @@ async def filter(bot, update):
                     url, token = text.split()
             else:
                 url = text
-            if not check_url.check(url):
+            if not (url.startswith("http://") or url.startswith("https://")):
                 await message.edit_text("Error :- `url is wrong`")
                 return
     elif not update.reply_to_message:
@@ -87,7 +85,10 @@ async def filter(bot, update):
 
         await message.edit_text("`Downloading...`")
         if url:
-            media = urldl.download(url)
+            response = requests.get(url)
+            media = response.url.split("/", -1)[-1]
+            with open(name, "wb") as file:
+                file.write(response.content)
         else:
             media = await update.reply_to_message.download()
         await message.edit_text("`Downloaded Successfully`")
