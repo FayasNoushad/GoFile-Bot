@@ -1,5 +1,4 @@
 import os
-import urldl
 from dotenv import load_dotenv
 from gofile import uploadFile
 from pyrogram import Client, filters
