@@ -1,4 +1,5 @@
 import os
+import requests
 from dotenv import load_dotenv
 from gofile import uploadFile
 from pyrogram import Client, filters
@@ -87,7 +88,7 @@ async def filter(bot, update):
         if url:
             response = requests.get(url)
             media = response.url.split("/", -1)[-1]
-            with open(name, "wb") as file:
+            with open(media, "wb") as file:
                 file.write(response.content)
         else:
             media = await update.reply_to_message.download()
