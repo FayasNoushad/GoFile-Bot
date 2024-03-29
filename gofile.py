@@ -23,6 +23,7 @@ def uploadFile(file, token=None, folderId=None):
     out = out.decode("UTF-8").strip()
     print(out)
     if out:
+        out = out.split("\n")[-1]
         try:
             response = json.loads(out)
         except:
