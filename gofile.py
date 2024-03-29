@@ -1,3 +1,4 @@
+import os
 import json
 import shlex
 import requests
@@ -9,17 +10,18 @@ def uploadFile(file, token=None, folderId=None):
     server = requests.get("https://api.gofile.io/getServer").json()["data"]["server"]
 
     cmd = 'curl '
-    cmd += f'-F file=@{file} '
+    cmd += f'-F "file=@{file}" '
     if token:
-        cmd += f'-F token={token} '
+        cmd += f'-F "token={token}" '
     if folderId:
-        cmd += f'-F folderId={folderId} '
-    cmd += f'https://{server}.gofile.io/uploadFile'
+        cmd += f'-F "folderId={folderId}" '
+    cmd += f"'https://{server}.gofile.io/uploadFile'"
     upload_cmd = shlex.split(cmd)
     try:
         out = subprocess.check_output(upload_cmd, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as e:
         raise Exception(e)
+    os.remove(file)
     out = out.decode("UTF-8").strip()
     print(out)
     if out:
