@@ -12,7 +12,7 @@ Bot = Client(
     "GoFile-Bot",
     bot_token=os.environ.get("BOT_TOKEN"),
     api_id=int(os.environ.get("API_ID")),
-    api_hash=os.environ.get("API_HASH")
+    api_hash=os.environ.get("API_HASH"),
 )
 
 INSTRUCTIONS = """
@@ -42,17 +42,15 @@ async def start(bot, update):
     await update.reply_text(
         text=f"Hello {update.from_user.mention}," + INSTRUCTIONS,
         disable_web_page_preview=True,
-        quote=True
+        quote=True,
     )
 
 
 @Bot.on_message(filters.private & filters.command("upload"))
-async def filter(bot, update):
+async def filter(_, update):
 
     message = await update.reply_text(
-        text="`Processing...`",
-        quote=True,
-        disable_web_page_preview=True
+        text="`Processing...`", quote=True, disable_web_page_preview=True
     )
 
     text = update.text.replace("\n", " ")
@@ -95,43 +93,45 @@ async def filter(bot, update):
         await message.edit_text("`Downloaded Successfully`")
 
         await message.edit_text("`Uploading...`")
-        response = uploadFile(file=media, token=token, folderId=folderId)
+        response = uploadFile(file_path=media, token=token, folderId=folderId)
         await message.edit_text("`Uploading Successfully`")
 
         try:
-            os.remove(file)
-        except Exception as error:
-            print(error)
+            os.remove(media)
+        except:
+            pass
 
     except Exception as error:
         await message.edit_text(f"Error :- `{error}`")
         return
 
-    text = f"**File Name:** `{response['fileName']}`" + "\n"
-    text += f"**File ID:** `{response['fileId']}`" + "\n"
-    text += f"**Code:** `{response['code']}`" + "\n"
+    text = f"**File Name:** `{response['name']}`" + "\n"
+    text += f"**File ID:** `{response['id']}`" + "\n"
+    text += f"**Parent Folder Code:** `{response['parentFolderCode']}`" + "\n"
+    text += f"**Guest Token:** `{response['guestToken']}`" + "\n"
     text += f"**md5:** `{response['md5']}`" + "\n"
     text += f"**Download Page:** `{response['downloadPage']}`"
-    link = response['downloadPage']
+    link = response["downloadPage"]
     reply_markup = InlineKeyboardMarkup(
         [
             [
+                InlineKeyboardButton(text="Open Link", url=link),
                 InlineKeyboardButton(
-                    text="Open Link", url=link),
-                InlineKeyboardButton(
-                    text="Share Link", url=f"https://telegram.me/share/url?url={link}")
+                    text="Share Link", url=f"https://telegram.me/share/url?url={link}"
+                ),
             ],
             [
                 InlineKeyboardButton(
-                    text="Feedback", url="https://telegram.me/FayasNoushad")
-            ]
+                    text="Feedback", url="https://telegram.me/FayasNoushad"
+                )
+            ],
         ]
     )
     await message.edit_text(
-        text=text,
-        reply_markup=reply_markup,
-        disable_web_page_preview=True
+        text=text, reply_markup=reply_markup, disable_web_page_preview=True
     )
 
 
-Bot.run()
+if __name__ == "__main__":
+    print("Bot is started working!")
+    Bot.run()
